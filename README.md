@@ -1,2 +1,15 @@
 # Spell-Check
-A spell-checking application using the SymSpell algorithm, capable of correcting spelling errors with sentence level context. 
+A spell-checking application using the SymSpell algorithm, capable of correcting spelling errors with sentence level context.  
+Comprehensive explanation with screenshots: https://docs.google.com/document/d/1QQROh8ndwBHbPwx2t1kKZcquHDDfF0Pz/edit?usp=sharing&ouid=101341574298072489360&rtpof=true&sd=true  
+  
+Spellcheckers and autocorrect can feel like magic. They’re at the core of everyday applications - our phones, google search (The “did you mean” feature) (26 % of web queries contain spelling mistakes!) and also in background processes like OCR post-processing and chat bots. Traditional spell-checking algorithms are generally very slow, but are fast enough to cope with normal typing speeds and single query lookups. However, these algorithms are not applicable to larger inputs and doesn’t scale well. For example, cleaning up spelling mistakes in large amounts of data to be used in a machine learning training model can be very time consuming. Even in real time single query lookups, they are not as snappy and responsive. A slower algorithm also implies that our search depth is not very deep and we do not have the luxury of using additional parameters and heuristics to get a more accurate suggestion. In this project, we use the Edit Distance model for spelling correction as a base, where we try to find the word with the “least distance” to the misspelt word. However, massive optimizations are made based on some key insights on the symmetric nature of the “distance” between two strings (By using Bi- Directional BFS) and by also decomposing insertions, replacements and transpositions of characters to only deletions (e.g. Insertions on the source word is equivalent to deletions on the suggested word). This can increase the performance of the algorithm by several orders of magnitude and also makes it completely independent of the character set of the language. Further, we include context sensitive spelling correction (e.g. “I like Chinese xood is corrected to “I like Chinese food” rather than “I like Chinese good”) by using a Bigram and a Trigram Dictionary, conditional probability and Dynamic programming (for string segmentation).  
+
+A server running this algorithm is hosted and clients can send text data to be corrected and sent back. The “did you mean feature” is also included where a client can send a search query and the server processes it and sends back a single prediction of what the query could be (if there were mistakes in the query). The client can also choose to send a text file(or enter text in the application) and interactively correct the spelling mistakes in it. 
+  
+Steps to run the application:  
+  *     Download SpellCheckProject.zip from https://drive.google.com/file/d/1YY764NzeXGPA7khoytF5gv0oBg2jodJN/view?usp=sharing      
+  *     Unzip the file SpellCheckProject.zip.    
+  *     Open the Command Prompt and go to the directory SpellCheckProject -> src.    
+  *     Connect to the Internet (if not already).    
+  *     Run Remote_Corpus.java using the command java Main/Remote_Corpus and wait for 10 to 30 seconds to start the server.    
+  *     Run MainGUI.java using the command java GUI/MainGUI to run the application.   
